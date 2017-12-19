@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using AzureStorage.Tables;
 using Common.Log;
 using Lykke.Service.BlockchainSignService.AzureRepositories;
 using Lykke.Service.BlockchainSignService.Core.Repositories;
@@ -49,18 +50,27 @@ namespace Lykke.Service.BlockchainSignService.Modules
                 .As<IShutdownManager>();
 
             // TODO: Add your dependencies here
+            
             #region Repos
 
-            builder.RegisterType<WalletRepository>().
-                As<IWalletRepository>().SingleInstance();
+            builder.RegisterInstance(new WalletRepository(
+                AzureTableStorage<WalletEntity>.Create(_settings.ConnectionString(x => x.Db.DataConnString), "Wallets", _log)))
+                .As<IWalletRepository>().SingleInstance();
 
             #endregion Repos
 
             #region Services
 
+            builder.RegisterInstance<BlockchainSignServiceSettings>(_settings.CurrentValue).SingleInstance();
+
+            builder.RegisterType<InternalSignServiceCaller>()
+                .As<IInternalSignServiceCaller>()
+                //.WithParameter("signServiceUrl", TypedParameter.From(_settings.CurrentValue.SignServiceUrl))
+                .SingleInstance();
+
             builder.RegisterType<WalletGeneratorService>().
                 As<IWalletGeneratorService>()
-                .WithParameter(TypedParameter.From(_settings.CurrentValue.PasswordBytes))
+                //.WithParameter("passwordBytes", TypedParameter.From(_settings.CurrentValue.PasswordBytes))
                 .SingleInstance();
 
             builder.RegisterType<SignService>().
@@ -68,10 +78,6 @@ namespace Lykke.Service.BlockchainSignService.Modules
 
             builder.RegisterType<EncryptionService>().
                 As<IEncryptionService>().SingleInstance();
-
-            builder.RegisterType<InternalSignServiceCaller>()
-                .WithParameter(TypedParameter.From(_settings.CurrentValue.SignServiceUrl))
-                .As<InternalSignServiceCaller>().SingleInstance();
 
             #endregion Services
 

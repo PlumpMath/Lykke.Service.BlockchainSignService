@@ -4,6 +4,7 @@ using Lykke.Service.BlockchainSignService.Core.Exceptions;
 using Lykke.Service.BlockchainSignService.Core.Repositories;
 using Lykke.Service.BlockchainSignService.Core.Services;
 using Lykke.Service.BlockchainSignService.Core.Settings;
+using Lykke.Service.BlockchainSignService.Core.Settings.ServiceSettings;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,13 +23,13 @@ namespace Lykke.Service.BlockchainSignService.Services
             IWalletRepository walletRepository,
             IInternalSignServiceCaller internalSignServiceCaller,
             IEncryptionService encryptionService,
-            byte[] passwordBytes
+            BlockchainSignServiceSettings settings
             )
         {
             _walletRepository = walletRepository;
             _internalSignServiceCaller = internalSignServiceCaller;
             _encryptionService = encryptionService;
-            _passwordBytes = passwordBytes;
+            _passwordBytes = settings.PasswordBytes;
         }
 
         public async Task<string> SignTransactionAsync(Guid walletId, string transactionRaw)

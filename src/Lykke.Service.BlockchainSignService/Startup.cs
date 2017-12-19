@@ -7,8 +7,10 @@ using Common.Log;
 using Lykke.Common.ApiLibrary.Middleware;
 using Lykke.Common.ApiLibrary.Swagger;
 using Lykke.Logs;
+using Lykke.Service.BlockchainSignService.Core.Exceptions;
 using Lykke.Service.BlockchainSignService.Core.Services;
 using Lykke.Service.BlockchainSignService.Core.Settings;
+using Lykke.Service.BlockchainSignService.Models;
 using Lykke.Service.BlockchainSignService.Modules;
 using Lykke.SettingsReader;
 using Lykke.SlackNotification.AzureQueue;
@@ -56,7 +58,7 @@ namespace Lykke.Service.BlockchainSignService
                 var appSettings = Configuration.LoadSettings<AppSettings>();
                 Log = CreateLogWithSlack(services, appSettings);
 
-                builder.RegisterModule(new ServiceModule(appSettings.Nested(x => x.BlockchainSignServiceService), Log));
+                builder.RegisterModule(new ServiceModule(appSettings.Nested(x => x.BlockchainSignService), Log));
                 builder.Populate(services);
                 ApplicationContainer = builder.Build();
 
@@ -78,7 +80,21 @@ namespace Lykke.Service.BlockchainSignService
                     app.UseDeveloperExceptionPage();
                 }
 
-                app.UseLykkeMiddleware("BlockchainSignService", ex => new { Message = "Technical problem" });
+                app.UseLykkeMiddleware("BlockchainSignService", ex =>
+                {
+                    var response = ErrorResponse.Create();
+                    if (ex is ClientSideException clientError)
+                    {
+                        response.AddModelError(clientError.Type.ToString(), clientError);
+                    }
+                    else
+                    {
+                        response.AddModelError("TechnicalError", ex.Message);
+                    }
+
+                    //TODO: Log error here
+                    return response;
+                });
 
                 app.UseMvc();
                 app.UseSwagger(c =>
@@ -169,7 +185,7 @@ namespace Lykke.Service.BlockchainSignService
 
             aggregateLogger.AddLog(consoleLogger);
 
-            var dbLogConnectionStringManager = settings.Nested(x => x.BlockchainSignServiceService.Db.LogsConnString);
+            var dbLogConnectionStringManager = settings.Nested(x => x.BlockchainSignService.Db.LogsConnString);
             var dbLogConnectionString = dbLogConnectionStringManager.CurrentValue;
 
             if (string.IsNullOrEmpty(dbLogConnectionString))

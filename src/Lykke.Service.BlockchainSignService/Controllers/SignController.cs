@@ -27,7 +27,7 @@ namespace Lykke.Service.BlockchainSignService.Controllers
         [ProducesResponseType(typeof(SignTransactionResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> CreateWalletAsync(SignTransactionRequest signTransactionRequest)
+        public async Task<IActionResult> CreateWalletAsync([FromBody]SignTransactionRequest signTransactionRequest)
         {
             if (!ModelState.IsValid)
             {

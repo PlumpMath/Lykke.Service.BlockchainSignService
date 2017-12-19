@@ -2,6 +2,7 @@
 using Lykke.Service.BlockchainSignService.Core.Exceptions;
 using Lykke.Service.BlockchainSignService.Core.Services;
 using Lykke.Service.BlockchainSignService.Core.Settings;
+using Lykke.Service.BlockchainSignService.Core.Settings.ServiceSettings;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -17,14 +18,15 @@ namespace Lykke.Service.BlockchainSignService.Services
         private readonly HttpClient _httpClient;
         private readonly string _signServiceUrl;
 
-        public InternalSignServiceCaller(string signServiceUrl)
+        public InternalSignServiceCaller(BlockchainSignServiceSettings settings)
         {
             var pipeline = new JsonApiTypeHandler()
             {
                 InnerHandler = new HttpClientHandler()
             };
+
             _httpClient = new HttpClient(pipeline);
-            _signServiceUrl = signServiceUrl;
+            _signServiceUrl = settings.SignServiceUrl;
         }
 
         public async Task<KeyModelResponse> CreateWalletAsync()
@@ -58,7 +60,7 @@ namespace Lykke.Service.BlockchainSignService.Services
         protected async override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
-            //request.Headers.Add("Content-Type", "application/json");
+
 
             return await base.SendAsync(request, cancellationToken);
         }
