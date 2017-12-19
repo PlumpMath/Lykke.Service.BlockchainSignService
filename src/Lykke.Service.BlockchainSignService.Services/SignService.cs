@@ -16,36 +16,19 @@ namespace Lykke.Service.BlockchainSignService.Services
         private readonly IWalletRepository _walletRepository;
         private readonly IInternalSignServiceCaller _internalSignServiceCaller;
         private readonly IEncryptionService _encryptionService;
-        private readonly AppSettings _settings;
+        private readonly byte[] _passwordBytes;
 
         public SignService(
             IWalletRepository walletRepository,
             IInternalSignServiceCaller internalSignServiceCaller,
             IEncryptionService encryptionService,
-            AppSettings settings
+            byte[] passwordBytes
             )
         {
             _walletRepository = walletRepository;
             _internalSignServiceCaller = internalSignServiceCaller;
             _encryptionService = encryptionService;
-            _settings = settings;
-        }
-
-        public async Task<Guid> CreateWallet()
-        {
-            Guid walletId = Guid.NewGuid();
-
-            KeyModelResponse response = await _internalSignServiceCaller.CreateWalletAsync();
-            string encryptedPrivateKey = 
-                _encryptionService.EncryptAesString(response.PrivateKey, _settings.BlockchainSignServiceService.PasswordBytes);
-            await _walletRepository.SaveAsync(new Wallet()
-            {
-                EncryptedPrivateKey = encryptedPrivateKey,
-                PublicAddress = response.PublicAddress,
-                WalletId = walletId,
-            });
-
-            return walletId;
+            _passwordBytes = passwordBytes;
         }
 
         public async Task<string> SignTransactionAsync(Guid walletId, string transactionRaw)
@@ -57,7 +40,7 @@ namespace Lykke.Service.BlockchainSignService.Services
                     ClientSideException.ClientSideExceptionType.EntityDoesNotExist);
             }
 
-            string privateKey = _encryptionService.DecryptAesString(wallet.EncryptedPrivateKey, _settings.BlockchainSignServiceService.PasswordBytes);
+            string privateKey = _encryptionService.DecryptAesString(wallet.EncryptedPrivateKey, _passwordBytes);
             SignedTransactionResponse signedTransaction = await _internalSignServiceCaller.SignTransactionAsync(privateKey, transactionRaw);
 
             return signedTransaction.SignedTransaction;

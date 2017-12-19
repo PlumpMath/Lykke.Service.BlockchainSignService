@@ -3,13 +3,16 @@
   // If you want to use local settings, add appsettings.Development.json file, which not version controlled
   "BlockchainSignServiceService": {
     "Db": {
-      "LogsConnString": "UseDevelopmentStorage=true"
-    }
+      "LogsConnString": "",
+      "DataConnString": ""
+    },
+    "Password": "",
+    "SignServiceUrl": ""
   },
   "SlackNotifications": {
     "AzureQueue": {
-      "ConnectionString": "UseDevelopmentStorage=true",
-      "QueueName": "slack-notifications"
+      "ConnectionString": "",
+      "QueueName": ""
     }
   }
 }

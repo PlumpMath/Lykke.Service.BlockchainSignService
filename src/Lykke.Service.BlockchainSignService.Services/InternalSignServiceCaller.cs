@@ -15,18 +15,16 @@ namespace Lykke.Service.BlockchainSignService.Services
     public class InternalSignServiceCaller : IInternalSignServiceCaller
     {
         private readonly HttpClient _httpClient;
-        private readonly AppSettings _appSettings;
         private readonly string _signServiceUrl;
 
-        public InternalSignServiceCaller(AppSettings appSettings)
+        public InternalSignServiceCaller(string signServiceUrl)
         {
             var pipeline = new JsonApiTypeHandler()
             {
                 InnerHandler = new HttpClientHandler()
             };
             _httpClient = new HttpClient(pipeline);
-            _appSettings = appSettings;
-            _signServiceUrl =  _appSettings.BlockchainSignServiceService.SignServiceUrl;
+            _signServiceUrl = signServiceUrl;
         }
 
         public async Task<KeyModelResponse> CreateWalletAsync()

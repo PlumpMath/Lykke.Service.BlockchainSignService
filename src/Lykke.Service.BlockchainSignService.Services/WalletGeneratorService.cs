@@ -15,19 +15,19 @@ namespace Lykke.Service.BlockchainSignService.Services
         private readonly IWalletRepository _walletRepository;
         private readonly IInternalSignServiceCaller _internalSignServiceCaller;
         private readonly IEncryptionService _encryptionService;
-        private readonly AppSettings _settings;
+        private readonly byte[] _passwordBytes;
 
         public WalletGeneratorService(
             IWalletRepository walletRepository,
             IInternalSignServiceCaller internalSignServiceCaller,
             IEncryptionService encryptionService,
-            AppSettings settings
+            byte[] passwordBytes
             )
         {
             _walletRepository = walletRepository;
             _internalSignServiceCaller = internalSignServiceCaller;
             _encryptionService = encryptionService;
-            _settings = settings;
+            _passwordBytes = passwordBytes;
         }
 
         public async Task<WalletCreationResult> CreateWallet()
@@ -36,7 +36,7 @@ namespace Lykke.Service.BlockchainSignService.Services
 
             KeyModelResponse response = await _internalSignServiceCaller.CreateWalletAsync();
             string encryptedPrivateKey = 
-                _encryptionService.EncryptAesString(response.PrivateKey, _settings.BlockchainSignServiceService.PasswordBytes);
+                _encryptionService.EncryptAesString(response.PrivateKey, _passwordBytes);
             await _walletRepository.SaveAsync(new Wallet()
             {
                 EncryptedPrivateKey = encryptedPrivateKey,

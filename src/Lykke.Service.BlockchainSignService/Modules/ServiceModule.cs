@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Common.Log;
+using Lykke.Service.BlockchainSignService.AzureRepositories;
+using Lykke.Service.BlockchainSignService.Core.Repositories;
 using Lykke.Service.BlockchainSignService.Core.Services;
 using Lykke.Service.BlockchainSignService.Core.Settings.ServiceSettings;
 using Lykke.Service.BlockchainSignService.Services;
@@ -47,6 +49,31 @@ namespace Lykke.Service.BlockchainSignService.Modules
                 .As<IShutdownManager>();
 
             // TODO: Add your dependencies here
+            #region Repos
+
+            builder.RegisterType<WalletRepository>().
+                As<IWalletRepository>().SingleInstance();
+
+            #endregion Repos
+
+            #region Services
+
+            builder.RegisterType<WalletGeneratorService>().
+                As<IWalletGeneratorService>()
+                .WithParameter(TypedParameter.From(_settings.CurrentValue.PasswordBytes))
+                .SingleInstance();
+
+            builder.RegisterType<SignService>().
+                As<ISignService>().SingleInstance();
+
+            builder.RegisterType<EncryptionService>().
+                As<IEncryptionService>().SingleInstance();
+
+            builder.RegisterType<InternalSignServiceCaller>()
+                .WithParameter(TypedParameter.From(_settings.CurrentValue.SignServiceUrl))
+                .As<InternalSignServiceCaller>().SingleInstance();
+
+            #endregion Services
 
             builder.Populate(_services);
         }
