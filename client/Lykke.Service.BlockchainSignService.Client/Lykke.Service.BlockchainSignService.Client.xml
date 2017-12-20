@@ -113,6 +113,23 @@
             A response object containing the response body and response headers.
             </return>
         </member>
+        <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.BlockchainSignServiceAPI.GetAllWalletsWithHttpMessagesAsync(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+            <exception cref="T:Microsoft.Rest.HttpOperationException">
+            Thrown when the operation returned an invalid status code
+            </exception>
+            <exception cref="T:Microsoft.Rest.SerializationException">
+            Thrown when unable to deserialize the response
+            </exception>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
+        </member>
         <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.BlockchainSignServiceAPI.CreateWalletWithHttpMessagesAsync(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <param name='customHeaders'>
             Headers that will be added to request.
@@ -125,6 +142,50 @@
             </exception>
             <exception cref="T:Microsoft.Rest.SerializationException">
             Thrown when unable to deserialize the response
+            </exception>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
+        </member>
+        <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.BlockchainSignServiceAPI.GetByWalletIdWithHttpMessagesAsync(System.Guid,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <param name='walletId'>
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+            <exception cref="T:Microsoft.Rest.HttpOperationException">
+            Thrown when the operation returned an invalid status code
+            </exception>
+            <exception cref="T:Microsoft.Rest.SerializationException">
+            Thrown when unable to deserialize the response
+            </exception>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
+        </member>
+        <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.BlockchainSignServiceAPI.GetByPublicAddressWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <param name='publicAddress'>
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+            <exception cref="T:Microsoft.Rest.HttpOperationException">
+            Thrown when the operation returned an invalid status code
+            </exception>
+            <exception cref="T:Microsoft.Rest.SerializationException">
+            Thrown when unable to deserialize the response
+            </exception>
+            <exception cref="T:Microsoft.Rest.ValidationException">
+            Thrown when a required parameter is null
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
             </exception>
             <return>
             A response object containing the response body and response headers.
@@ -171,6 +232,19 @@
             The cancellation token.
             </param>
         </member>
+        <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.BlockchainSignServiceAPIExtensions.GetAllWallets(Lykke.Service.BlockchainSignService.Client.AutorestClient.IBlockchainSignServiceAPI)">
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+        </member>
+        <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.BlockchainSignServiceAPIExtensions.GetAllWalletsAsync(Lykke.Service.BlockchainSignService.Client.AutorestClient.IBlockchainSignServiceAPI,System.Threading.CancellationToken)">
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
         <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.BlockchainSignServiceAPIExtensions.CreateWallet(Lykke.Service.BlockchainSignService.Client.AutorestClient.IBlockchainSignServiceAPI)">
             <param name='operations'>
             The operations group for this extension method.
@@ -179,6 +253,40 @@
         <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.BlockchainSignServiceAPIExtensions.CreateWalletAsync(Lykke.Service.BlockchainSignService.Client.AutorestClient.IBlockchainSignServiceAPI,System.Threading.CancellationToken)">
             <param name='operations'>
             The operations group for this extension method.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.BlockchainSignServiceAPIExtensions.GetByWalletId(Lykke.Service.BlockchainSignService.Client.AutorestClient.IBlockchainSignServiceAPI,System.Guid)">
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='walletId'>
+            </param>
+        </member>
+        <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.BlockchainSignServiceAPIExtensions.GetByWalletIdAsync(Lykke.Service.BlockchainSignService.Client.AutorestClient.IBlockchainSignServiceAPI,System.Guid,System.Threading.CancellationToken)">
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='walletId'>
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.BlockchainSignServiceAPIExtensions.GetByPublicAddress(Lykke.Service.BlockchainSignService.Client.AutorestClient.IBlockchainSignServiceAPI,System.String)">
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='publicAddress'>
+            </param>
+        </member>
+        <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.BlockchainSignServiceAPIExtensions.GetByPublicAddressAsync(Lykke.Service.BlockchainSignService.Client.AutorestClient.IBlockchainSignServiceAPI,System.String,System.Threading.CancellationToken)">
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='publicAddress'>
             </param>
             <param name='cancellationToken'>
             The cancellation token.
@@ -224,7 +332,35 @@
             The cancellation token.
             </param>
         </member>
+        <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.IBlockchainSignServiceAPI.GetAllWalletsWithHttpMessagesAsync(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
         <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.IBlockchainSignServiceAPI.CreateWalletWithHttpMessagesAsync(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.IBlockchainSignServiceAPI.GetByWalletIdWithHttpMessagesAsync(System.Guid,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <param name='walletId'>
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.IBlockchainSignServiceAPI.GetByPublicAddressWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <param name='publicAddress'>
+            </param>
             <param name='customHeaders'>
             The headers that will be added to request.
             </param>
@@ -311,26 +447,18 @@
             Initializes a new instance of the SignTransactionRequest class.
             </summary>
         </member>
-        <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.Models.SignTransactionRequest.#ctor(System.Guid,System.String)">
+        <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.Models.SignTransactionRequest.#ctor(System.Collections.Generic.IList{System.Nullable{System.Guid}},System.String)">
             <summary>
             Initializes a new instance of the SignTransactionRequest class.
             </summary>
         </member>
-        <member name="P:Lykke.Service.BlockchainSignService.Client.AutorestClient.Models.SignTransactionRequest.WalletId">
+        <member name="P:Lykke.Service.BlockchainSignService.Client.AutorestClient.Models.SignTransactionRequest.WalletIds">
             <summary>
             </summary>
         </member>
         <member name="P:Lykke.Service.BlockchainSignService.Client.AutorestClient.Models.SignTransactionRequest.TransactionHex">
             <summary>
             </summary>
-        </member>
-        <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.Models.SignTransactionRequest.Validate">
-            <summary>
-            Validate the object.
-            </summary>
-            <exception cref="T:Microsoft.Rest.ValidationException">
-            Thrown if validation fails
-            </exception>
         </member>
         <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.Models.SignTransactionResponse.#ctor">
             <summary>
@@ -372,6 +500,66 @@
             Thrown if validation fails
             </exception>
         </member>
+        <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.Models.WalletResponse.#ctor">
+            <summary>
+            Initializes a new instance of the WalletResponse class.
+            </summary>
+        </member>
+        <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.Models.WalletResponse.#ctor(System.Guid,System.String)">
+            <summary>
+            Initializes a new instance of the WalletResponse class.
+            </summary>
+        </member>
+        <member name="P:Lykke.Service.BlockchainSignService.Client.AutorestClient.Models.WalletResponse.PublicAddress">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:Lykke.Service.BlockchainSignService.Client.AutorestClient.Models.WalletResponse.WalletId">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.Models.WalletResponse.Validate">
+            <summary>
+            Validate the object.
+            </summary>
+            <exception cref="T:Microsoft.Rest.ValidationException">
+            Thrown if validation fails
+            </exception>
+        </member>
+        <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.Models.WalletsResponse.#ctor">
+            <summary>
+            Initializes a new instance of the WalletsResponse class.
+            </summary>
+        </member>
+        <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.Models.WalletsResponse.#ctor(System.Collections.Generic.IList{Lykke.Service.BlockchainSignService.Client.AutorestClient.Models.WalletResponse})">
+            <summary>
+            Initializes a new instance of the WalletsResponse class.
+            </summary>
+        </member>
+        <member name="P:Lykke.Service.BlockchainSignService.Client.AutorestClient.Models.WalletsResponse.Wallets">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Lykke.Service.BlockchainSignService.Client.BlockchainSignServiceClient.CreateWalletAsync">
+            <exception cref="T:Lykke.Service.BlockchainSignService.Client.Exceptions.ErrorResponseException"/>
+            <exception cref="T:Lykke.Service.BlockchainSignService.Client.Exceptions.UnknownResponseException"/>
+        </member>
+        <member name="M:Lykke.Service.BlockchainSignService.Client.BlockchainSignServiceClient.SignTransactionAsync(Lykke.Service.BlockchainSignService.Client.Models.SignRequestModel)">
+            <exception cref="T:Lykke.Service.BlockchainSignService.Client.Exceptions.ErrorResponseException"/>
+            <exception cref="T:Lykke.Service.BlockchainSignService.Client.Exceptions.UnknownResponseException"/>
+        </member>
+        <member name="M:Lykke.Service.BlockchainSignService.Client.BlockchainSignServiceClient.GetAllWalletsAsync">
+            <exception cref="T:Lykke.Service.BlockchainSignService.Client.Exceptions.ErrorResponseException"/>
+            <exception cref="T:Lykke.Service.BlockchainSignService.Client.Exceptions.UnknownResponseException"/>
+        </member>
+        <member name="M:Lykke.Service.BlockchainSignService.Client.BlockchainSignServiceClient.GetWalletByIdAsync(System.Guid)">
+            <exception cref="T:Lykke.Service.BlockchainSignService.Client.Exceptions.ErrorResponseException"/>
+            <exception cref="T:Lykke.Service.BlockchainSignService.Client.Exceptions.UnknownResponseException"/>
+        </member>
+        <member name="M:Lykke.Service.BlockchainSignService.Client.BlockchainSignServiceClient.GetWalletByPublicAddressAsync(System.String)">
+            <exception cref="T:Lykke.Service.BlockchainSignService.Client.Exceptions.ErrorResponseException"/>
+            <exception cref="T:Lykke.Service.BlockchainSignService.Client.Exceptions.UnknownResponseException"/>
+        </member>
         <member name="M:Lykke.Service.BlockchainSignService.Client.Models.SignedTransactionModel.#ctor(System.String)">
             <summary>
             Initializes a new instance of the SignTransactionResponse class.
@@ -381,7 +569,7 @@
             <summary>
             </summary>
         </member>
-        <member name="P:Lykke.Service.BlockchainSignService.Client.Models.SignRequestModel.WalletId">
+        <member name="P:Lykke.Service.BlockchainSignService.Client.Models.SignRequestModel.WalletIds">
             <summary>
             </summary>
         </member>

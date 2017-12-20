@@ -13,5 +13,7 @@ namespace Lykke.Service.BlockchainSignService.Core.Repositories
         Task<IEnumerable<IWallet>> GetAllAsync();
 
         Task SaveAsync(IWallet wallet);
+
+        Task<IWallet> GetWalletByPublicAddressAsync(string publicAddress);
     }
 }

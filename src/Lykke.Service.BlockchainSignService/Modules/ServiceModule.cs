@@ -1,14 +1,18 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AzureStorage.Tables;
+using AzureStorage.Tables.Templates.Index;
 using Common.Log;
 using Lykke.Service.BlockchainSignService.AzureRepositories;
+using Lykke.Service.BlockchainSignService.Cache;
+using Lykke.Service.BlockchainSignService.Core.Domain;
 using Lykke.Service.BlockchainSignService.Core.Repositories;
 using Lykke.Service.BlockchainSignService.Core.Services;
 using Lykke.Service.BlockchainSignService.Core.Settings.ServiceSettings;
 using Lykke.Service.BlockchainSignService.Services;
 using Lykke.SettingsReader;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace Lykke.Service.BlockchainSignService.Modules
 {
@@ -54,7 +58,8 @@ namespace Lykke.Service.BlockchainSignService.Modules
             #region Repos
 
             builder.RegisterInstance(new WalletRepository(
-                AzureTableStorage<WalletEntity>.Create(_settings.ConnectionString(x => x.Db.DataConnString), "Wallets", _log)))
+                AzureTableStorage<WalletEntity>.Create(_settings.ConnectionString(x => x.Db.DataConnString), "Wallets", _log),
+                AzureTableStorage<AzureIndex>.Create(_settings.ConnectionString(x => x.Db.DataConnString), "Wallets", _log)))
                 .As<IWalletRepository>().SingleInstance();
 
             #endregion Repos
@@ -68,8 +73,8 @@ namespace Lykke.Service.BlockchainSignService.Modules
                 //.WithParameter("signServiceUrl", TypedParameter.From(_settings.CurrentValue.SignServiceUrl))
                 .SingleInstance();
 
-            builder.RegisterType<WalletGeneratorService>().
-                As<IWalletGeneratorService>()
+            builder.RegisterType<WalletService>().
+                As<IWalletService>()
                 //.WithParameter("passwordBytes", TypedParameter.From(_settings.CurrentValue.PasswordBytes))
                 .SingleInstance();
 
@@ -81,7 +86,22 @@ namespace Lykke.Service.BlockchainSignService.Modules
 
             #endregion Services
 
+            #region Caches
+
+            RegisterCache<WalletCreationResult>(builder, "Wallets");
+
+            #endregion Caches
+
             builder.Populate(_services);
+        }
+
+        private void RegisterCache<T>(ContainerBuilder builder, string partitionKey)
+        {
+            builder.RegisterType<Cache<T>>()
+                .As<ICache<T>>()
+                .SingleInstance()
+                .WithParameter(TypedParameter.From(TimeSpan.FromHours(1)))
+                .WithParameter(TypedParameter.From(partitionKey));
         }
     }
 }

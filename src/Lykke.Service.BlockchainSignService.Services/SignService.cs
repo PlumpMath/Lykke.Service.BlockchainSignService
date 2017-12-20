@@ -32,6 +32,17 @@ namespace Lykke.Service.BlockchainSignService.Services
             _passwordBytes = settings.PasswordBytes;
         }
 
+        public async Task<string> SignTransactionAsync(IEnumerable<Guid> walletIds, string transactionRaw)
+        {
+            string signedTransaction = transactionRaw;
+            foreach (var wallet in walletIds)
+            {
+                signedTransaction = await SignTransactionAsync(wallet, signedTransaction);
+            }
+
+            return signedTransaction;
+        }
+
         public async Task<string> SignTransactionAsync(Guid walletId, string transactionRaw)
         {
             IWallet wallet = await _walletRepository.GetWalletAsync(walletId);

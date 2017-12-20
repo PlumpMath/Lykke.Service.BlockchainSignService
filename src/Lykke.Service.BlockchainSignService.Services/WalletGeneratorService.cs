@@ -6,19 +6,20 @@ using Lykke.Service.BlockchainSignService.Core.Settings;
 using Lykke.Service.BlockchainSignService.Core.Settings.ServiceSettings;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Lykke.Service.BlockchainSignService.Services
 {
-    public class WalletGeneratorService : IWalletGeneratorService
+    public class WalletService : IWalletService
     {
         private readonly IWalletRepository _walletRepository;
         private readonly IInternalSignServiceCaller _internalSignServiceCaller;
         private readonly IEncryptionService _encryptionService;
         private readonly byte[] _passwordBytes;
 
-        public WalletGeneratorService(
+        public WalletService(
             IWalletRepository walletRepository,
             IInternalSignServiceCaller internalSignServiceCaller,
             IEncryptionService encryptionService,
@@ -31,7 +32,7 @@ namespace Lykke.Service.BlockchainSignService.Services
             _passwordBytes = settings.PasswordBytes;
         }
 
-        public async Task<WalletCreationResult> CreateWallet()
+        public async Task<WalletCreationResult> CreateWalletAsync()
         {
             Guid walletId = Guid.NewGuid();
 
@@ -49,6 +50,50 @@ namespace Lykke.Service.BlockchainSignService.Services
             {
                 PublicAddress = response.PublicAddress,
                 WalletId = walletId
+            };
+        }
+
+        public async Task<IEnumerable<WalletCreationResult>> GetAllWalletsAsync()
+        {
+            var allWallets = await _walletRepository.GetAllAsync();
+            var results = allWallets.Select(x => new WalletCreationResult()
+            {
+                PublicAddress = x.PublicAddress,
+                WalletId = x.WalletId
+            });
+
+            return results;
+        }
+
+        public async Task<WalletCreationResult> GetByPublicAddressAsync(string publicAddress)
+        {
+            IWallet wallet = await _walletRepository.GetWalletByPublicAddressAsync(publicAddress);
+
+            if (wallet == null)
+            {
+                return null;
+            }
+
+            return new WalletCreationResult()
+            {
+                PublicAddress = wallet.PublicAddress,
+                WalletId = wallet.WalletId
+            };
+        }
+
+        public async Task<WalletCreationResult> GetByWalletIdAsync(Guid walletId)
+        {
+            IWallet wallet = await _walletRepository.GetWalletAsync(walletId);
+
+            if (wallet == null)
+            {
+                return null;
+            }
+
+            return new WalletCreationResult()
+            {
+                PublicAddress = wallet.PublicAddress,
+                WalletId = wallet.WalletId
             };
         }
     }

@@ -8,7 +8,7 @@ namespace Lykke.Service.BlockchainSignService.Models.Responses
     public class SignTransactionRequest
     {
         [Required]
-        public Guid WalletId { get; set; }
+        public IEnumerable<Guid> WalletIds { get; set; }
 
         [Required]
         public string TransactionHex { get; set; }

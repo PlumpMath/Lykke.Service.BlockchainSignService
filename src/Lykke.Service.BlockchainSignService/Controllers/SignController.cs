@@ -35,7 +35,7 @@ namespace Lykke.Service.BlockchainSignService.Controllers
             }
 
             string signedTransaction = 
-                await _signService.SignTransactionAsync(signTransactionRequest.WalletId, signTransactionRequest.TransactionHex);
+                await _signService.SignTransactionAsync(signTransactionRequest.WalletIds, signTransactionRequest.TransactionHex);
 
             return Ok(new SignTransactionResponse()
             {

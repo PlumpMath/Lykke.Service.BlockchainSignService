@@ -1,21 +1,23 @@
 ﻿namespace Lykke.Service.BlockchainSignService.Client.Models
 {
     using Newtonsoft.Json;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
 
     public partial class SignRequestModel
     {
       
-        public SignRequestModel(System.Guid walletId, string transactionHex = default(string))
+        public SignRequestModel(IEnumerable<System.Guid> walletIds, string transactionHex = default(string))
         {
-            WalletId = walletId;
+            WalletIds = walletIds;
             TransactionHex = transactionHex;
         }
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "WalletId")]
-        public System.Guid WalletId { get; set; }
+        [JsonProperty(PropertyName = "WalletIds")]
+        public IEnumerable<System.Guid> WalletIds { get; set; }
 
         /// <summary>
         /// </summary>
