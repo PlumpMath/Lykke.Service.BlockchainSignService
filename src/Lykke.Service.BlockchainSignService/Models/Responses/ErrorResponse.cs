@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Lykke.Service.BlockchainSignService.Models
 {
+    [DataContract]
     public class ErrorResponse
     {
+        [DataMember(Name = "errorMessage")]
         public string ErrorMessage { get; }
 
+        [DataMember(Name ="modelErrors")]
         public Dictionary<string, List<string>> ModelErrors { get; }
 
         private ErrorResponse() :

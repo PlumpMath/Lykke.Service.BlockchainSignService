@@ -14,7 +14,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Lykke.Service.BlockchainSignService.Controllers
 {
-    [Route("api/wallet")]
+    [Route("api/wallets")]
     public class WalletController : Controller
     {
         private readonly IWalletService _walletGeneratorService;
@@ -48,7 +48,7 @@ namespace Lykke.Service.BlockchainSignService.Controllers
             });
         }
 
-        [HttpGet("{walletId}")]
+        [HttpGet("by-id/{walletId}")]
         [SwaggerOperation("GetByWalletId")]
         [ProducesResponseType(typeof(WalletResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
@@ -69,7 +69,7 @@ namespace Lykke.Service.BlockchainSignService.Controllers
             });
         }
 
-        [HttpGet("publicAddress/{publicAddress}")]
+        [HttpGet("by-public-address/{publicAddress}")]
         [SwaggerOperation("GetByPublicAddress")]
         [ProducesResponseType(typeof(WalletResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
