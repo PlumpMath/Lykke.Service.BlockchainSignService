@@ -447,7 +447,7 @@
             Initializes a new instance of the SignTransactionRequest class.
             </summary>
         </member>
-        <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.Models.SignTransactionRequest.#ctor(System.Collections.Generic.IList{System.Nullable{System.Guid}},System.String)">
+        <member name="M:Lykke.Service.BlockchainSignService.Client.AutorestClient.Models.SignTransactionRequest.#ctor(System.Collections.Generic.IList{System.Guid},System.String)">
             <summary>
             Initializes a new instance of the SignTransactionRequest class.
             </summary>

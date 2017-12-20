@@ -27,7 +27,7 @@ namespace Lykke.Service.BlockchainSignService.Client
         public async Task<WalletModel> CreateWalletAsync()
         {
             var response = await _api.CreateWalletAsync();
-            WalletCreationResponse wallet = ConvertToOrHandleErrorResponse<WalletCreationResponse>(response);
+            WalletResponse wallet = ConvertToOrHandleErrorResponse<WalletResponse>(response);
 
             return new WalletModel(wallet.WalletId, wallet.PublicAddress);
         }
@@ -36,7 +36,7 @@ namespace Lykke.Service.BlockchainSignService.Client
         /// <exception cref="UnknownResponseException"/>
         public async Task<SignedTransactionModel> SignTransactionAsync(SignRequestModel requestModel)
         {
-            var request = new SignTransactionRequest((IList<Guid?>)requestModel.WalletIds?.ToList(), requestModel.TransactionHex);
+            var request = new SignTransactionRequest(requestModel.WalletIds?.ToList(), requestModel.TransactionHex);
             var response = await _api.SignTransactionAsync(request);
             SignTransactionResponse signTransactionResponse = ConvertToOrHandleErrorResponse<SignTransactionResponse>(response);
 
@@ -59,7 +59,7 @@ namespace Lykke.Service.BlockchainSignService.Client
         public async Task<WalletModel> GetWalletByIdAsync(Guid walletId)
         {
             var response = await _api.GetByWalletIdAsync(walletId);
-            WalletCreationResponse wallet = ConvertToOrHandleErrorResponse<WalletCreationResponse>(response);
+            WalletResponse wallet = ConvertToOrHandleErrorResponse<WalletResponse>(response);
 
             if (wallet == null)
             {
@@ -74,7 +74,7 @@ namespace Lykke.Service.BlockchainSignService.Client
         public async Task<WalletModel> GetWalletByPublicAddressAsync(string publicAddress)
         {
             var response = await _api.GetByPublicAddressAsync(publicAddress);
-            WalletCreationResponse wallet = ConvertToOrHandleErrorResponse<WalletCreationResponse>(response);
+            WalletResponse wallet = ConvertToOrHandleErrorResponse<WalletResponse>(response);
 
             if (wallet == null)
             {
