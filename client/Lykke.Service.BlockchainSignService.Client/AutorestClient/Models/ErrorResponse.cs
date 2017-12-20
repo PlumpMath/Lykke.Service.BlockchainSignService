@@ -38,12 +38,12 @@ namespace Lykke.Service.BlockchainSignService.Client.AutorestClient.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "ErrorMessage")]
+        [JsonProperty(PropertyName = "errorMessage")]
         public string ErrorMessage { get; private set; }
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "ModelErrors")]
+        [JsonProperty(PropertyName = "modelErrors")]
         public IDictionary<string, IList<string>> ModelErrors { get; private set; }
 
     }

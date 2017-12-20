@@ -15,7 +15,7 @@
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "SignedTransaction")]
+        [JsonProperty(PropertyName = "signedTransaction")]
         public string SignedTransaction { get; set; }
 
     }

@@ -38,12 +38,12 @@ namespace Lykke.Service.BlockchainSignService.Client.AutorestClient.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "WalletIds")]
+        [JsonProperty(PropertyName = "walletIds")]
         public IList<System.Guid?> WalletIds { get; set; }
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "TransactionHex")]
+        [JsonProperty(PropertyName = "transactionHex")]
         public string TransactionHex { get; set; }
 
     }

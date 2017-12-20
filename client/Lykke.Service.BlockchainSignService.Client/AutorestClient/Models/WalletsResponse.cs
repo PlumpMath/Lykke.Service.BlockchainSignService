@@ -37,7 +37,7 @@ namespace Lykke.Service.BlockchainSignService.Client.AutorestClient.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "Wallets")]
+        [JsonProperty(PropertyName = "wallets")]
         public IList<WalletResponse> Wallets { get; set; }
 
     }

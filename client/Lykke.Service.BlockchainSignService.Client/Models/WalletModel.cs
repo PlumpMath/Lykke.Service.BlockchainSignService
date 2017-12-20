@@ -14,12 +14,12 @@ namespace Lykke.Service.BlockchainSignService.Client.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "PublicAddress")]
+        [JsonProperty(PropertyName = "publicAddress")]
         public string PublicAddress { get; set; }
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "WalletId")]
+        [JsonProperty(PropertyName = "walletId")]
         public System.Guid WalletId { get; set; }
     }
 }

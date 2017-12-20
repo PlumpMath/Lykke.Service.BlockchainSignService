@@ -35,7 +35,7 @@ namespace Lykke.Service.BlockchainSignService.Client.AutorestClient.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "SignedTransaction")]
+        [JsonProperty(PropertyName = "signedTransaction")]
         public string SignedTransaction { get; set; }
 
     }
