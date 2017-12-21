@@ -1,4 +1,5 @@
-﻿using Lykke.Service.BlockchainSignService.Core.Domain;
+﻿using Common;
+using Lykke.Service.BlockchainSignService.Core.Domain;
 using Lykke.Service.BlockchainSignService.Core.Domain.SignService;
 using Lykke.Service.BlockchainSignService.Core.Exceptions;
 using Lykke.Service.BlockchainSignService.Core.Repositories;
@@ -7,6 +8,7 @@ using Lykke.Service.BlockchainSignService.Core.Settings;
 using Lykke.Service.BlockchainSignService.Core.Settings.ServiceSettings;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,26 +36,46 @@ namespace Lykke.Service.BlockchainSignService.Services
 
         public async Task<string> SignTransactionAsync(IEnumerable<Guid> walletIds, string transactionRaw)
         {
-            string signedTransaction = transactionRaw;
-            foreach (var wallet in walletIds)
+            IEnumerable<IWallet> wallets = null;
+
+            try
             {
-                signedTransaction = await SignTransactionAsync(wallet, signedTransaction);
+                wallets = await walletIds.SelectAsync(async walletId =>
+                {
+                    IWallet wallet = await _walletRepository.GetWalletAsync(walletId);
+
+                    if (wallet == null)
+                    {
+                        throw new ClientSideException($"Wallet with id {walletId} does not exist in DB",
+                            ClientSideException.ClientSideExceptionType.EntityDoesNotExist);
+                    }
+
+                    return wallet;
+                });
+            }
+            catch (AggregateException exc)
+            {
+                foreach (var exception in exc.InnerExceptions)
+                {
+                    if (exception is ClientSideException clientSideExc)
+                    {
+                        throw clientSideExc;
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                throw;
             }
 
-            return signedTransaction;
-        }
-
-        public async Task<string> SignTransactionAsync(Guid walletId, string transactionRaw)
-        {
-            IWallet wallet = await _walletRepository.GetWalletAsync(walletId);
-            if (wallet == null)
+            IEnumerable<string> privateKeys = wallets.Select(wallet =>
             {
-                throw new ClientSideException($"Wallet with id {walletId} does not exist in DB", 
-                    ClientSideException.ClientSideExceptionType.EntityDoesNotExist);
-            }
+                string privateKey = _encryptionService.DecryptAesString(wallet.EncryptedPrivateKey, _passwordBytes);
 
-            string privateKey = _encryptionService.DecryptAesString(wallet.EncryptedPrivateKey, _passwordBytes);
-            SignedTransactionResponse signedTransaction = await _internalSignServiceCaller.SignTransactionAsync(privateKey, transactionRaw);
+                return privateKey;
+            });
+
+            SignedTransactionResponse signedTransaction = await _internalSignServiceCaller.SignTransactionAsync(privateKeys, transactionRaw);
 
             return signedTransaction.SignedTransaction;
         }

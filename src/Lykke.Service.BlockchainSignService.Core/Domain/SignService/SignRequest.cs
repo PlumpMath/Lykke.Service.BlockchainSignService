@@ -8,8 +8,8 @@ namespace Lykke.Service.BlockchainSignService.Core.Domain.SignService
     [DataContract]
     public class SignRequest
     {
-        [DataMember(Name = "privateKey")]
-        public string PrivateKey { get; set; }
+        [DataMember(Name = "privateKeys")]
+        public IEnumerable<string> PrivateKeys { get; set; }
 
         [DataMember(Name = "transactionHex")]
         public string TransactionHex { get; set; }

@@ -48,10 +48,10 @@ namespace Lykke.Service.BlockchainSignService.Services
             return keyModelResponse;
         }
 
-        public async Task<SignedTransactionResponse> SignTransactionAsync(string privateKey, string transactionRaw)
+        public async Task<SignedTransactionResponse> SignTransactionAsync(IEnumerable<string> privateKeys, string transactionRaw)
         {
             string serializedRequest = Newtonsoft.Json.JsonConvert.SerializeObject(
-                new SignRequest() { PrivateKey = privateKey, TransactionHex = transactionRaw });
+                new SignRequest() { PrivateKeys =  privateKeys, TransactionHex = transactionRaw });
             HttpResponseMessage message = await _httpClient.PostAsync($"{_signServiceUrl}/api/sign", new StringContent(serializedRequest));
             string serializedResponse = await message.Content.ReadAsStringAsync();
             SignedTransactionResponse response = await ConvertToOrThrow<SignedTransactionResponse>(serializedResponse);

@@ -86,13 +86,17 @@ namespace Lykke.Service.BlockchainSignService
 
                 app.UseLykkeMiddleware("BlockchainSignService", ex =>
                 {
-                    var response = ErrorResponse.Create();
+                    ErrorResponse response;
                     if (ex is ClientSideException clientError)
                     {
-                        response.AddModelError(clientError.Type.ToString(), clientError);
+                        string erroMsg = clientError.Type.ToString();
+
+                        response = ErrorResponse.Create(erroMsg);
+                        response.AddModelError(erroMsg, clientError);
                     }
                     else
                     {
+                        response = ErrorResponse.Create("Internal Server Error");
                         response.AddModelError("TechnicalError", ex.Message);
                     }
 
