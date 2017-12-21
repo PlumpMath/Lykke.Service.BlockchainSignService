@@ -10,7 +10,8 @@ namespace Lykke.Service.BlockchainSignService.Core.Exceptions
         {
             ValidationError,
             SignError,
-            EntityDoesNotExist
+            EntityDoesNotExist,
+            SignServiceError
         }
 
         public ClientSideExceptionType Type { get; }

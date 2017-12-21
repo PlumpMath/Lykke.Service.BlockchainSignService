@@ -10,6 +10,7 @@ using Lykke.Logs;
 using Lykke.Service.BlockchainSignService.Core.Exceptions;
 using Lykke.Service.BlockchainSignService.Core.Services;
 using Lykke.Service.BlockchainSignService.Core.Settings;
+using Lykke.Service.BlockchainSignService.Filters;
 using Lykke.Service.BlockchainSignService.Models;
 using Lykke.Service.BlockchainSignService.Modules;
 using Lykke.SettingsReader;
@@ -42,7 +43,10 @@ namespace Lykke.Service.BlockchainSignService
         {
             try
             {
-                services.AddMvc()
+                services.AddMvc(o =>
+                    {
+                        o.Filters.Add(new ApiExceptionLoggerFactory());
+                    })
                     .AddJsonOptions(options =>
                     {
                         options.SerializerSettings.ContractResolver =
@@ -92,7 +96,6 @@ namespace Lykke.Service.BlockchainSignService
                         response.AddModelError("TechnicalError", ex.Message);
                     }
 
-                    //TODO: Log error here
                     return response;
                 });
 
