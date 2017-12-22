@@ -116,32 +116,6 @@ namespace Lykke.Service.BlockchainSignService.Client.AutorestClient
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            /// <param name='walletId'>
-            /// </param>
-            public static object GetByWalletId(this IBlockchainSignServiceAPI operations, System.Guid walletId)
-            {
-                return operations.GetByWalletIdAsync(walletId).GetAwaiter().GetResult();
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='walletId'>
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<object> GetByWalletIdAsync(this IBlockchainSignServiceAPI operations, System.Guid walletId, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.GetByWalletIdWithHttpMessagesAsync(walletId, null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
-            }
-
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
             /// <param name='publicAddress'>
             /// </param>
             public static object GetByPublicAddress(this IBlockchainSignServiceAPI operations, string publicAddress)

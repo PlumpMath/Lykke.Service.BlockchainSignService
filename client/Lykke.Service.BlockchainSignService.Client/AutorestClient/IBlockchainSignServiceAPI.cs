@@ -71,16 +71,6 @@ namespace Lykke.Service.BlockchainSignService.Client.AutorestClient
         /// </param>
         Task<HttpOperationResponse<object>> CreateWalletWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
-        /// <param name='walletId'>
-        /// </param>
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        Task<HttpOperationResponse<object>> GetByWalletIdWithHttpMessagesAsync(System.Guid walletId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
-
         /// <param name='publicAddress'>
         /// </param>
         /// <param name='customHeaders'>

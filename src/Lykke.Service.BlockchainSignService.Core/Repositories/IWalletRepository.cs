@@ -8,8 +8,6 @@ namespace Lykke.Service.BlockchainSignService.Core.Repositories
 {
     public interface IWalletRepository
     {
-        Task<IWallet> GetWalletAsync(Guid walletId);
-
         Task<IEnumerable<IWallet>> GetAllAsync();
 
         Task SaveAsync(IWallet wallet);

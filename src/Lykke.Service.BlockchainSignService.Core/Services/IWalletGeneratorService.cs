@@ -12,8 +12,6 @@ namespace Lykke.Service.BlockchainSignService.Core.Services
 
         Task<IEnumerable<WalletCreationResult>> GetAllWalletsAsync();
 
-        Task<WalletCreationResult> GetByWalletIdAsync(Guid walletId);
-
         Task<WalletCreationResult> GetByPublicAddressAsync(string publicAddress);
     }
 }

@@ -6,6 +6,6 @@ namespace Lykke.Service.BlockchainSignService.Core.Services
 {
     public interface ISignService
     {
-        Task<string> SignTransactionAsync(IEnumerable<Guid> walletIds, string transactionRaw);
+        Task<string> SignTransactionAsync(IEnumerable<string> walletIds, string transactionRaw);
     }
 }

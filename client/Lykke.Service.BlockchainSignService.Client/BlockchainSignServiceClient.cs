@@ -29,14 +29,14 @@ namespace Lykke.Service.BlockchainSignService.Client
             var response = await _api.CreateWalletAsync();
             WalletResponse wallet = ConvertToOrHandleErrorResponse<WalletResponse>(response);
 
-            return new WalletModel(wallet.WalletId, wallet.PublicAddress);
+            return new WalletModel(wallet.PublicAddress);
         }
 
         /// <exception cref="ErrorResponseException"/>
         /// <exception cref="UnknownResponseException"/>
         public async Task<SignedTransactionModel> SignTransactionAsync(SignRequestModel requestModel)
         {
-            var request = new SignTransactionRequest(requestModel.WalletIds?.ToList(), requestModel.TransactionHex);
+            var request = new SignTransactionRequest(requestModel.PublicAddresses?.ToList(), requestModel.TransactionHex);
             var response = await _api.SignTransactionAsync(request);
             SignTransactionResponse signTransactionResponse = ConvertToOrHandleErrorResponse<SignTransactionResponse>(response);
 
@@ -51,22 +51,7 @@ namespace Lykke.Service.BlockchainSignService.Client
 
             var result = ConvertToOrHandleErrorResponse<WalletsResponse>(response);
 
-            return result.Wallets.Select(x => new WalletModel(x.WalletId, x.PublicAddress));
-        }
-
-        /// <exception cref="ErrorResponseException"/>
-        /// <exception cref="UnknownResponseException"/>
-        public async Task<WalletModel> GetWalletByIdAsync(Guid walletId)
-        {
-            var response = await _api.GetByWalletIdAsync(walletId);
-            WalletResponse wallet = ConvertToOrHandleErrorResponse<WalletResponse>(response);
-
-            if (wallet == null)
-            {
-                return null;
-            }
-
-            return new WalletModel(wallet.WalletId, wallet.PublicAddress);
+            return result.Wallets.Select(x => new WalletModel(x.PublicAddress));
         }
 
         /// <exception cref="ErrorResponseException"/>
@@ -81,7 +66,7 @@ namespace Lykke.Service.BlockchainSignService.Client
                 return null;
             }
 
-            return new WalletModel(wallet.WalletId, wallet.PublicAddress);
+            return new WalletModel(wallet.PublicAddress);
         }
 
         public void Dispose()

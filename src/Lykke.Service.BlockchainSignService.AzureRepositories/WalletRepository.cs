@@ -12,7 +12,6 @@ namespace Lykke.Service.BlockchainSignService.AzureRepositories
 {
     public class WalletEntity : TableEntity, IWallet
     {
-        public Guid WalletId { get; set; }
         public string PublicAddress { get; set; }
         public string EncryptedPrivateKey { get; set; }
 
@@ -21,9 +20,9 @@ namespace Lykke.Service.BlockchainSignService.AzureRepositories
             return "Wallet";
         }
 
-        public static string GenerateRowKey(Guid walletId)
+        public static string GenerateRowKey(string publicAddress)
         {
-            return walletId.ToString();
+            return publicAddress.ToString();
         }
 
         public static WalletEntity Create(IWallet wallet)
@@ -31,8 +30,7 @@ namespace Lykke.Service.BlockchainSignService.AzureRepositories
             return new WalletEntity
             {
                 PartitionKey = GeneratePartition(),
-                RowKey = GenerateRowKey(wallet.WalletId),
-                WalletId = wallet.WalletId,
+                RowKey = GenerateRowKey(wallet.PublicAddress),
                 PublicAddress = wallet.PublicAddress,
                 EncryptedPrivateKey = wallet.EncryptedPrivateKey
             };
@@ -42,18 +40,10 @@ namespace Lykke.Service.BlockchainSignService.AzureRepositories
     public class WalletRepository : IWalletRepository
     {
         private readonly INoSQLTableStorage<WalletEntity> _tableStorage;
-        private readonly INoSQLTableStorage<AzureIndex> _indexTable;
-        private const string _indexPartition = "PublicAddressIndex";
 
-        public WalletRepository(INoSQLTableStorage<WalletEntity> tableStorage, INoSQLTableStorage<AzureIndex> indexTable)
+        public WalletRepository(INoSQLTableStorage<WalletEntity> tableStorage)
         {
             _tableStorage = tableStorage;
-            _indexTable = indexTable;
-        }
-
-        public async Task<IWallet> GetWalletAsync(Guid walletId)
-        {
-            return await _tableStorage.GetDataAsync(WalletEntity.GeneratePartition(), WalletEntity.GenerateRowKey(walletId));
         }
 
         public async Task<IEnumerable<IWallet>> GetAllAsync()
@@ -64,22 +54,13 @@ namespace Lykke.Service.BlockchainSignService.AzureRepositories
         public async Task SaveAsync(IWallet wallet)
         {
             WalletEntity entity = WalletEntity.Create(wallet);
-            AzureIndex index = AzureIndex.Create(_indexPartition, wallet.PublicAddress, entity);
 
             await _tableStorage.InsertAsync(entity);
-            await _indexTable.InsertAsync(index);
         }
 
         public async Task<IWallet> GetWalletByPublicAddressAsync(string publicAddress)
         {
-            AzureIndex index = await _indexTable.GetDataAsync(_indexPartition, publicAddress);
-
-            if (index == null)
-            {
-                return null;
-            }
-
-            IWallet wallet = await _tableStorage.GetDataAsync(index);
+            IWallet wallet = await _tableStorage.GetDataAsync(WalletEntity.GeneratePartition(), WalletEntity.GenerateRowKey(publicAddress));
 
             return wallet;
         }

@@ -34,8 +34,6 @@ namespace Lykke.Service.BlockchainSignService.Services
 
         public async Task<WalletCreationResult> CreateWalletAsync()
         {
-            Guid walletId = Guid.NewGuid();
-
             KeyModelResponse response = await _internalSignServiceCaller.CreateWalletAsync();
             string encryptedPrivateKey = 
                 _encryptionService.EncryptAesString(response.PrivateKey, _passwordBytes);
@@ -43,13 +41,11 @@ namespace Lykke.Service.BlockchainSignService.Services
             {
                 EncryptedPrivateKey = encryptedPrivateKey,
                 PublicAddress = response.PublicAddress,
-                WalletId = walletId,
             });
 
             return new WalletCreationResult()
             {
                 PublicAddress = response.PublicAddress,
-                WalletId = walletId
             };
         }
 
@@ -59,7 +55,6 @@ namespace Lykke.Service.BlockchainSignService.Services
             var results = allWallets.Select(x => new WalletCreationResult()
             {
                 PublicAddress = x.PublicAddress,
-                WalletId = x.WalletId
             });
 
             return results;
@@ -77,23 +72,6 @@ namespace Lykke.Service.BlockchainSignService.Services
             return new WalletCreationResult()
             {
                 PublicAddress = wallet.PublicAddress,
-                WalletId = wallet.WalletId
-            };
-        }
-
-        public async Task<WalletCreationResult> GetByWalletIdAsync(Guid walletId)
-        {
-            IWallet wallet = await _walletRepository.GetWalletAsync(walletId);
-
-            if (wallet == null)
-            {
-                return null;
-            }
-
-            return new WalletCreationResult()
-            {
-                PublicAddress = wallet.PublicAddress,
-                WalletId = wallet.WalletId
             };
         }
     }

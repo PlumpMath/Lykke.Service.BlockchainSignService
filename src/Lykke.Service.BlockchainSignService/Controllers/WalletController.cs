@@ -43,29 +43,7 @@ namespace Lykke.Service.BlockchainSignService.Controllers
                 Wallets = wallets.Select(walletCreationResult => new WalletResponse()
                 {
                     PublicAddress = walletCreationResult.PublicAddress,
-                    WalletId = walletCreationResult.WalletId
                 })
-            });
-        }
-
-        [HttpGet("by-id/{walletId}")]
-        [SwaggerOperation("GetByWalletId")]
-        [ProducesResponseType(typeof(WalletResponse), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> GetByWalletIdAsync(Guid walletId)
-        {
-            WalletCreationResult walletCreationResult = await _walletGeneratorService.GetByWalletIdAsync(walletId);
-
-            if (walletCreationResult == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(new WalletResponse()
-            {
-                PublicAddress = walletCreationResult.PublicAddress,
-                WalletId = walletCreationResult.WalletId
             });
         }
 
@@ -86,7 +64,6 @@ namespace Lykke.Service.BlockchainSignService.Controllers
             return Ok(new WalletResponse()
             {
                 PublicAddress = walletCreationResult.PublicAddress,
-                WalletId = walletCreationResult.WalletId
             });
         }
 
@@ -103,7 +80,6 @@ namespace Lykke.Service.BlockchainSignService.Controllers
             return Ok(new WalletResponse()
             {
                 PublicAddress = walletCreationResult.PublicAddress,
-                WalletId = walletCreationResult.WalletId
             });
         }
     }

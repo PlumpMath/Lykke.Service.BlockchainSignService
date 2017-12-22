@@ -22,10 +22,9 @@ namespace Lykke.Service.BlockchainSignService.Client.AutorestClient.Models
         /// <summary>
         /// Initializes a new instance of the WalletResponse class.
         /// </summary>
-        public WalletResponse(System.Guid walletId, string publicAddress = default(string))
+        public WalletResponse(string publicAddress = default(string))
         {
             PublicAddress = publicAddress;
-            WalletId = walletId;
             CustomInit();
         }
 
@@ -39,20 +38,5 @@ namespace Lykke.Service.BlockchainSignService.Client.AutorestClient.Models
         [JsonProperty(PropertyName = "publicAddress")]
         public string PublicAddress { get; set; }
 
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "walletId")]
-        public System.Guid WalletId { get; set; }
-
-        /// <summary>
-        /// Validate the object.
-        /// </summary>
-        /// <exception cref="Microsoft.Rest.ValidationException">
-        /// Thrown if validation fails
-        /// </exception>
-        public virtual void Validate()
-        {
-            //Nothing to validate
-        }
     }
 }

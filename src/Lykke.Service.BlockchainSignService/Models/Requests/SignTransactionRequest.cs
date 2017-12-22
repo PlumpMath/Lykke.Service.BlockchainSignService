@@ -10,8 +10,8 @@ namespace Lykke.Service.BlockchainSignService.Models.Responses
     public class SignTransactionRequest
     {
         [Required]
-        [DataMember(Name = "walletIds")]
-        public IEnumerable<Guid> WalletIds { get; set; }
+        [DataMember(Name = "publicAddresses")]
+        public IEnumerable<string> PublicAddresses { get; set; }
 
         [Required]
         [DataMember(Name = "transactionHex")]

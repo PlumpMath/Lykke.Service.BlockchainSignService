@@ -6,20 +6,14 @@ namespace Lykke.Service.BlockchainSignService.Client.Models
 
     public partial class WalletModel
     {
-        public WalletModel(System.Guid walletId, string publicAddress = default(string))
+        public WalletModel(string publicAddress)
         {
             PublicAddress = publicAddress;
-            WalletId = walletId;
         }
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "publicAddress")]
         public string PublicAddress { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "walletId")]
-        public System.Guid WalletId { get; set; }
     }
 }

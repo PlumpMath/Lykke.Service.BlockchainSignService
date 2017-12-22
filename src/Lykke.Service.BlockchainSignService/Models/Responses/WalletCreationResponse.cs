@@ -10,9 +10,6 @@ namespace Lykke.Service.BlockchainSignService.Models.Responses
     {
         [DataMember(Name = "publicAddress")]
         public string PublicAddress { get; set; }
-
-        [DataMember(Name = "walletId")]
-        public Guid WalletId { get; set; }
     }
 
     [DataContract]

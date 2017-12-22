@@ -8,16 +8,16 @@
     public partial class SignRequestModel
     {
       
-        public SignRequestModel(IEnumerable<System.Guid> walletIds, string transactionHex = default(string))
+        public SignRequestModel(IEnumerable<string> publicAddresses, string transactionHex = default(string))
         {
-            WalletIds = walletIds;
+            PublicAddresses = publicAddresses;
             TransactionHex = transactionHex;
         }
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "walletIds")]
-        public IEnumerable<System.Guid> WalletIds { get; set; }
+        public IEnumerable<string> PublicAddresses { get; set; }
 
         /// <summary>
         /// </summary>

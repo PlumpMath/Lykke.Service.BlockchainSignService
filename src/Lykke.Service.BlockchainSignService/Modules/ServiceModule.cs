@@ -58,8 +58,7 @@ namespace Lykke.Service.BlockchainSignService.Modules
             #region Repos
 
             builder.RegisterInstance(new WalletRepository(
-                AzureTableStorage<WalletEntity>.Create(_settings.ConnectionString(x => x.Db.DataConnString), "Wallets", _log),
-                AzureTableStorage<AzureIndex>.Create(_settings.ConnectionString(x => x.Db.DataConnString), "Wallets", _log)))
+                AzureTableStorage<WalletEntity>.Create(_settings.ConnectionString(x => x.Db.DataConnString), "Wallets", _log)))
                 .As<IWalletRepository>().SingleInstance();
 
             #endregion Repos
