@@ -24,7 +24,6 @@ namespace Lykke.Service.BlockchainSignService.Services
         private readonly HttpClient _httpClient;
         private readonly string _signServiceUrl;
         private readonly ILog _log;
-        private readonly JSchemaGenerator _jSchemaGenerator;
 
         public InternalSignServiceCaller(BlockchainSignServiceSettings settings, ILog log)
         {
@@ -36,7 +35,6 @@ namespace Lykke.Service.BlockchainSignService.Services
             _httpClient = new HttpClient(pipeline);
             _signServiceUrl = settings.SignServiceUrl;
             _log = log;
-            _jSchemaGenerator = new JSchemaGenerator();
         }
 
         public async Task<KeyModelResponse> CreateWalletAsync()
@@ -82,11 +80,17 @@ namespace Lykke.Service.BlockchainSignService.Services
 
         public T TryParseJson<T>(string json) where T : class, new()
         {
-            JSchema parsedSchema = _jSchemaGenerator.Generate(typeof(T));
-            JObject jObject = JObject.Parse(json);
+            T deserializedObject = JsonConvert.DeserializeObject<T>(json);
 
-            return jObject.IsValid(parsedSchema) ?
-                JsonConvert.DeserializeObject<T>(json) : null;
+            var results = new List<ValidationResult>();
+            if (deserializedObject != null)
+            {
+                var context = new ValidationContext(deserializedObject, null, null);
+                Validator.TryValidateObject(deserializedObject, context, results);
+            }
+
+            return results.Count == 0 ? deserializedObject
+                 : null;
         }
     }
 
